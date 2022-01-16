@@ -2,6 +2,8 @@
 const signupForm = document.getElementById('signup-form');
 const signupBtn = document.getElementById('signup-btn')
 
+const recapthcaInput = document.querySelector('#g-recaptcha-response')
+
 signupBtn.addEventListener('click', (e) => {
     e.preventDefault()
 
@@ -12,6 +14,8 @@ signupBtn.addEventListener('click', (e) => {
     const password = signupForm.password.value
     const passwordConfirm = signupForm.passwordConfirm.value
 
+    const recaptcha = recapthcaInput.value
+
     var isValid = validateInputs(firstName, lastName, emailAddress, password, passwordConfirm)
 
     if (isValid) {
@@ -19,14 +23,14 @@ signupBtn.addEventListener('click', (e) => {
             firstName : firstName,
             lastName : lastName,
             email : emailAddress,
-            password : password
+            password : password,
         }
 
-        signup(user)
-
-        location.href = '/login'
+        signup(user, recaptcha)
     }
 })
+
+
 
 function validateInputs(firstName, lastName, email, password, passwordConfirm) {
     var isValid = true;

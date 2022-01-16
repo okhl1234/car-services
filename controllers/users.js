@@ -38,9 +38,22 @@ export const login = async (req, res) => {
 // input : { firstName : 'Kobi', lastName: 'Malka', email: 'kobi@gmail.com', password: '123456' }
 export const signup = async (req, res) => {
     console.log(`Controllers: Users.signup() - body = ${JSON.stringify(req.body)}`)
-    const userData = req.body
-
+    const userData = req.body.user
+    const recaptcha = req.body.recaptcha
+    
     try {
+
+        if (!recaptcha) {
+            res.status(404).send("Please enter your recaptcha")
+            return
+        }
+
+        const isRecaptchaValid = await validateRecaptcha(recaptcha, req.connection.remoteAddress)
+        if (!isRecaptchaValid) {
+            res.status(404).send("Please enter your recaptcha")
+            return
+        }
+
         const usersWithSameEmails = await User.find({ email: userData.email }).limit(1)
         const isUserAlreadyExist = usersWithSameEmails.length > 0
 
@@ -59,6 +72,20 @@ export const signup = async (req, res) => {
     } catch (err) {
         res.status(500).send(err.message);
     }
+}
+
+async function validateRecaptcha(recaptcha, remoteAddress) {
+    const query = JSON.stringify({
+        secret: "6Ld20xgeAAAAACR4hWTD3HyRuqpo--rVelMGO7uB",
+        response: recaptcha,
+        remoteip: remoteAddress
+    })
+
+    const verifyUrl = `https://www.google.com/recaptcha/api/siteverify?${query}`
+    const response = await fetch(verifyUrl)
+        .then(response.json())
+
+    return response.success
 }
 
 // input : email

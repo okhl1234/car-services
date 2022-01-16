@@ -25,22 +25,24 @@ const login = async (email, password) => {
     return isSuccess
 }
 
-const signup = async (user) => {
+const signup = async (user, recaptcha) => {
     console.log("signup")
 
     const url = `${API_URL_PREFIX}/sign-up`
-    // const request = {
-    //     method: 'POST',
-    //     body: JSON.stringify(user),
-    //     headers: {
-    //         'Content-Type': 'application/json'
-    //     }
-    // }
 
-    const response = await sendHttpRequest(url, "POST", user)
+    const data = {
+        user : user,
+        recaptcha : recaptcha
+    }
+    const response = await sendHttpRequest(url, "POST", data)
 
-    // const response = await fetch(url, request)
     const isSuccess = response.status === 200
+
+    console.log("isSuccess = " + isSuccess)
+    if (isSuccess) {
+        location.href = "login"
+    }
+
     return isSuccess
 }
 
