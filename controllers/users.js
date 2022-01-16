@@ -77,21 +77,25 @@ export const signup = async (req, res) => {
 
 async function validateRecaptcha(recaptcha, remoteAddress) {
     console.log("validateRecaptcha: recaptcha = " + recaptcha + ", remoteAddress = " + remoteAddress)
-    const query = stringify({
-        secret: "6Ld20xgeAAAAACR4hWTD3HyRuqpo--rVelMGO7uB",
-        response: recaptcha,
-        remoteip: remoteAddress
-    })
-
-    const verifyUrl = `https://www.google.com/recaptcha/api/siteverify?${query}`
-    return await fetch(verifyUrl)
-        .then(res => res.json())
-        .then(data => {
-            console.log("validateRecaptcha: data = " + data)
-
-            return data.success
+    
+    try {
+        const query = stringify({
+            secret: "6Ld20xgeAAAAACR4hWTD3HyRuqpo--rVelMGO7uB",
+            response: recaptcha,
+            remoteip: remoteAddress
         })
 
+        const verifyUrl = `https://www.google.com/recaptcha/api/siteverify?${query}`
+        return await fetch(verifyUrl)
+            .then(res => res.json())
+            .then(data => {
+                console.log("validateRecaptcha: data = " + data)
+
+                return data.success
+        })
+    } catch (err) {
+        console.log(err.message)
+    }
 
 }
 
