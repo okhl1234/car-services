@@ -43,6 +43,7 @@ const signup = async (user, recaptcha) => {
         location.href = "login"
     }
 
+    document.querySelector("recaptcha-error").style.display = isSuccess ? "none" : "block"
     return isSuccess
 }
 
