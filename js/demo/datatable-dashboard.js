@@ -1,7 +1,7 @@
 // Call the dataTables jQuery plugin
 $(document).ready(function() {
 
-  fetch(`http://localhost:5000/treatments`)
+  fetch(`/treatments`)
   .then(response => response.json())
   .then(data => {
 
