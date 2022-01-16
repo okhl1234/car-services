@@ -75,6 +75,7 @@ export const signup = async (req, res) => {
 }
 
 async function validateRecaptcha(recaptcha, remoteAddress) {
+    console.log("validateRecaptcha: recaptcha = " + recaptcha + ", remoteAddress = " + remoteAddress)
     const query = JSON.stringify({
         secret: "6Ld20xgeAAAAACR4hWTD3HyRuqpo--rVelMGO7uB",
         response: recaptcha,
@@ -82,10 +83,15 @@ async function validateRecaptcha(recaptcha, remoteAddress) {
     })
 
     const verifyUrl = `https://www.google.com/recaptcha/api/siteverify?${query}`
-    const response = await fetch(verifyUrl)
-        .then(response.json())
+    return await fetch(verifyUrl)
+        .then(res => res.json())
+        .then(data => {
+            console.log("validateRecaptcha: data = " + data)
 
-    return response.success
+            return data.success
+        })
+
+
 }
 
 // input : email
