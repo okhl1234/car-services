@@ -36,7 +36,7 @@ const signup = async (user, recaptcha) => {
     }
     const response = await sendHttpRequest(url, "POST", data)
     console.log("response: " + JSON.stringify(response))
-    
+
     const isSuccess = response.status === 200
 
     console.log("isSuccess = " + isSuccess)
@@ -45,7 +45,7 @@ const signup = async (user, recaptcha) => {
     }
 
     document.querySelector("#recaptcha-error").style.display = isSuccess ? "none" : "block"
-    document.querySelector("#recaptcha-error").textContent = isSuccess ? "" : response.data
+    document.querySelector("#recaptcha-error").value = isSuccess ? "" : response.data
     return isSuccess
 }
 
@@ -70,6 +70,7 @@ const sendHttpRequest = async (url, method, body) => {
     }
 
     const response = await fetch(url, request)
+        .then(response => response.json())
 
     console.log("sendHttpRequest: response: " + JSON.stringify(response))
     return response
