@@ -60,7 +60,7 @@ export const signup = async (req, res) => {
         const isUserAlreadyExist = usersWithSameEmails.length > 0
 
         if (isUserAlreadyExist) {
-            res.status(401).send("user already exists");
+            res.status(401).send("Email already exists");
             return
         }
 
@@ -90,7 +90,7 @@ async function validateRecaptcha(recaptcha, remoteAddress) {
         return await fetch(verifyUrl)
             .then(res => res.json())
             .then(data => {
-                console.log("validateRecaptcha: data = " + data)
+                console.log("validateRecaptcha: data = " + JSON.stringify(data))
 
                 return data.success
         })
