@@ -50,7 +50,7 @@ function validateInputs(firstName, lastName, email, password, passwordConfirm) {
         isValid = false;
     }
 
-    if (!isValidPasswords(password, passwordConfirm)) {
+    if (!isValidPasswords(password, passwordConfirm) && !isValidPassword(passwordConfirm) && !isValidPassword(password)) {
         console.log("Passwords are invalid - " + password + " , " + passwordConfirm)
         signupForm.password.style.borderColor = 'red';
         signupForm.passwordConfirm.style.borderColor = 'red';
