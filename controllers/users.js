@@ -1,6 +1,7 @@
 import User from '../models/user.js'
 import { sendEmailAsync } from '../utils/mailer.js'
 import { encrypte, compare } from '../utils/encryption.js'
+import { stringify } from 'querystring'
 
 // input : { email: 'kobi@gmail.com', password: '1234' }
 export const login = async (req, res) => {
@@ -76,7 +77,7 @@ export const signup = async (req, res) => {
 
 async function validateRecaptcha(recaptcha, remoteAddress) {
     console.log("validateRecaptcha: recaptcha = " + recaptcha + ", remoteAddress = " + remoteAddress)
-    const query = JSON.stringify({
+    const query = stringify({
         secret: "6Ld20xgeAAAAACR4hWTD3HyRuqpo--rVelMGO7uB",
         response: recaptcha,
         remoteip: remoteAddress
