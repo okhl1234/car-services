@@ -46,13 +46,13 @@ export const signup = async (req, res) => {
     try {
 
         if (!recaptcha) {
-            res.status(404).send("Please enter your recaptcha")
+            res.status(404).json({msg: "Please enter your recaptcha"})
             return
         }
 
         const isRecaptchaValid = await validateRecaptcha(recaptcha, req.connection.remoteAddress)
         if (!isRecaptchaValid) {
-            res.status(404).send("Please enter your recaptcha")
+            res.status(404).json({msg: "Please enter your recaptcha"})
             return
         }
 
@@ -60,7 +60,7 @@ export const signup = async (req, res) => {
         const isUserAlreadyExist = usersWithSameEmails.length > 0
 
         if (isUserAlreadyExist) {
-            res.status(401).send("Email already exists");
+            res.status(401).json({msg: "Email already exists"})
             return
         }
 
@@ -70,9 +70,9 @@ export const signup = async (req, res) => {
 
         sendEmailAsync(userData.email, "Welcome " + userData.firstName, "Test Test")
 
-        res.status(200).send("OK");
+        res.status(200).json({msg: "OK"})
     } catch (err) {
-        res.status(500).send(err.message);
+        res.status(500).json({msg: err.msg})
     }
 }
 
