@@ -47,6 +47,8 @@ const signup = async (user, recaptcha) => {
     }
 
     document.querySelector("#recaptcha-error").style.display = isSuccess ? "none" : "block"
+    document.querySelector("#recaptcha-error").textContent = responseJson.msg
+    document.querySelector("#recaptcha-error").innerHTML = responseJson.msg
     return isSuccess
 }
 
