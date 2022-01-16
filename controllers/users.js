@@ -2,7 +2,7 @@ import User from '../models/user.js'
 import { sendEmailAsync } from '../utils/mailer.js'
 import { encrypte, compare } from '../utils/encryption.js'
 import { stringify } from 'querystring'
-import { fetch } from 'node-fetch'
+import fetch from 'node-fetch';
 
 // input : { email: 'kobi@gmail.com', password: '1234' }
 export const login = async (req, res) => {
