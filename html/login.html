@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Login</title>
+    <title>OKHL Car Services - Login</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -99,6 +99,7 @@
 
     <script>
         async function readRememberMeValue() {
+            console.log("readRememberMeValue")
             const cb = document.getElementById('remember-me-cb')
 
             const cbValue = localStorage.getItem('rememberMeValue')
@@ -107,6 +108,10 @@
             if (cb.checked) {
                 const email = localStorage.getItem('email')
                 const password = localStorage.getItem('password')
+
+                if (email == null || password == null) {
+                    return
+                }
 
                 const isSuccess = await login(email, password)
                 console.log(isSuccess)

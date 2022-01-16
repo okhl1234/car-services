@@ -19,6 +19,8 @@ const login = async (email, password) => {
     console.log("LOGIN - User name = " + userFullName)
 
     localStorage.setItem('userFullName', userFullName)
+    localStorage.setItem('password', responseJson.encryptedPassword)
+    
     const isSuccess = response.status === 200
     return isSuccess
 }

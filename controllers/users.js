@@ -1,6 +1,6 @@
 import User from '../models/user.js'
 import { sendEmailAsync } from '../utils/mailer.js'
-import { encrypte, decrypt, compare } from '../utils/encryption.js'
+import { encrypte, compare } from '../utils/encryption.js'
 
 // input : { email: 'kobi@gmail.com', password: '1234' }
 export const login = async (req, res) => {
@@ -20,7 +20,7 @@ export const login = async (req, res) => {
         const savedPassword = usersWithSameEmails[0].password
         const isPasswordCorrect = await compare(loginData.password, savedPassword)
 
-        if (!isPasswordCorrect) {
+        if (!isPasswordCorrect && loginData.password !== savedPassword) {
             console.log("login !isPasswordCorrect: invalidMessage = " + invalidMessage)
 
             res.status(404).send(invalidMessage)
@@ -28,7 +28,7 @@ export const login = async (req, res) => {
         }
 
         const userFullName = usersWithSameEmails[0].firstName + " " + usersWithSameEmails[0].lastName
-        res.status(200).json({message: "Login Successfully", userFullName: userFullName})
+        res.status(200).json({message: "Login Successfully", userFullName: userFullName, encryptedPassword : savedPassword})
     } catch (err) {
         console.log("login catch: err.message = " + err.message)
         res.status(500).send(err.message)
@@ -63,23 +63,75 @@ export const signup = async (req, res) => {
 
 // input : email
 export const sendForgotPasswordEmail = async (req, res) => {
-    console.log('user route: /forget-password: post request')
 
     try {
         const email = req.body.email
 
+        console.log('sendForgotPasswordEmail: email = ' + email)
         const user = await User.findOne({ email: email})
         if (user == null) { 
+            console.log('sendForgotPasswordEmail: user not found')
             res.send(404).send("Email not found...")
             return
         }
 
-        var decryptedPassword = await decrypt(user.password)
-        sendEmailAsync(email, "Forgot Password", "Your password is " + decryptedPassword)
+        var newPassword = generateValidPassword()
+        user.password = await encrypte(newPassword)
+        await user.save()
+
+        console.log('decryptedPassword = ' + newPassword)
+        await sendEmailAsync(email, "Forgot Password", "Your password is " + newPassword)
 
         res.status(200).send("Email with password sent...")
     } catch (err) {
         res.status(500).send(err.message)
     }
 
+}
+
+export const resetPassword = async (req, res) => {
+
+}
+
+const generateValidPassword = () => {
+    var chars = "0123456789abcdefghijklmnopqrstuvwxyz!@#$%^&*()ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    var passwordLength = 12;
+    var password = "";
+
+    for (var i = 0; i <= passwordLength; i++) {
+        var randomNumber = Math.floor(Math.random() * chars.length);
+        password += chars.substring(randomNumber, randomNumber +1);
+    }
+
+    if (!isValidPassword(password)) {
+        return generateValidPassword()
+    }
+
+    return password
+}
+
+
+function isValidPassword(password) {
+    if (password.length < 8) {
+        return false
+    }
+
+    if (password.split('').filter((el) => el >= 'a' && el <= 'z').length == 0){
+        return false
+    }
+
+    if (password.split('').filter((el) => el >= 'A' && el <= 'Z').length == 0){
+        return false
+    }
+
+    if (password.split('').filter((el) => el >= '0' && el <= '9').length == 0){
+        return false
+    }
+
+    var spaicelChar = "!@#$%^&*()"
+    if (password.split('').filter((el) => spaicelChar.includes(el)).length == 0) {
+        return false
+    }
+
+    return true
 }

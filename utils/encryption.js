@@ -8,12 +8,6 @@ export const encrypte = async (value) => {
     return encrypted.toString()
 }
 
-export const decrypt = async (value) => {
-    const decrypted = await bcrypt.decrypt(value)
-
-    return decrypted.toString()
-}
-
 export const compare = async (value, hashedValue) => {
     const isCompared = await bcrypt.compare(value, hashedValue)
 

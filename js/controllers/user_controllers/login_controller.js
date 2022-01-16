@@ -10,12 +10,12 @@ const loginMessage = document.getElementById('login-message')
 loginBtn.addEventListener('click', (e) => {
     e.preventDefault()
 
+    console.log("click login")
     async function handleLogin() {
         const email = emailInput.value
         const password = passwordInput.value
-    
-        const rememberMeValue = remeberMeCB.checked
-    
+        
+        console.log("handleLogin: " + email + " " + password)
         if (!isValidEmail(email) || !isValidPassword(password)) {
             showMessage("Invalid email or password", 2000)
             return
@@ -56,6 +56,5 @@ remeberMeCB.addEventListener('click', (e) => {
 
 function saveEmailAndPasswordToLocalStorage(email, password) {
     localStorage.setItem('email', email)
-    localStorage.setItem('password', password)
     localStorage.setItem('isLogin', true)
 }

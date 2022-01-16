@@ -18,13 +18,28 @@ function isValidEmail(email) {
     return email.match(validRejex)
 }
 
-
 function isValidPassword(password) {
-    const validRejex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/
-    // const validRejex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#^()-_=+\?.><)])[A-Za-z\d@$!%*?&#^()-_=+\?.><)]{6,}$/
-    if(!password.match(validRejex)) {
+    if (password.length < 8) {
         return false
     }
+
+    if (password.split('').filter((el) => el >= 'a' && el <= 'z').length == 0){
+        return false
+    }
+
+    if (password.split('').filter((el) => el >= 'A' && el <= 'Z').length == 0){
+        return false
+    }
+
+    if (password.split('').filter((el) => el >= '0' && el <= '9').length == 0){
+        return false
+    }
+
+    var spaicelChar = "!@#$%^&*()"
+    if (password.split('').filter((el) => spaicelChar.includes(el)).length == 0) {
+        return false
+    }
+
     return true
 }
 
