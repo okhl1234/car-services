@@ -39,7 +39,7 @@ function isValidPassword(password) {
 export const login = async (req, res) => {
     console.log(`Controllers: Users.login() - body = ${JSON.stringify(req.body)}`)
 
-    sendEmailAsync(req.body.email, "Logged In", "Test Test")
+   // sendEmailAsync(req.body.email, "Logged In", "Test Test")
     const invalidMessage = "User or password are invalid."
     const loginData = req.body
     try {
