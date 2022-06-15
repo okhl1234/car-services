@@ -113,7 +113,8 @@ async function validateRecaptcha(recaptcha, remoteAddress) {
     
     try {
         const query = stringify({
-            secret: "6Ld20xgeAAAAACR4hWTD3HyRuqpo--rVelMGO7uB",
+            // secret: "6Ld20xgeAAAAACR4hWTD3HyRuqpo--rVelMGO7uB",
+            secret: "6LcMdHMgAAAAAJaH4gO2-SAVszY3hlfeml5el8pe",
             response: recaptcha,
             remoteip: remoteAddress
         })
