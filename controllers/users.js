@@ -77,7 +77,7 @@ export const signup = async (req, res) => {
         const newUser = new User(userData)
         await newUser.save()
 
-        sendEmailAsync(userData.email, "Welcome " + userData.firstName, "to our service application")
+        sendEmailAsync(userData.email, "Welcome " + userData.firstName, "Welcome to our service application")
 
         res.status(200).json({msg: "OK"})
     } catch (err) {
