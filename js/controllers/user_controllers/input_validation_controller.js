@@ -39,11 +39,11 @@ function isValidPassword(password) {
         return false
     }
 
-    var spaicelChar = "!@#$%^&*()"
+    /*var spaicelChar = "!@#$%^&*()"
     if (password.split('').filter((el) => spaicelChar.includes(el)).length == 0) {
         console.log('Password invalid, must contain at least 1 characters !@#$%^&*()')
         return false
-    }
+    }*/
 
     return true
 }
