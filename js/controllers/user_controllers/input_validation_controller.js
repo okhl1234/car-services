@@ -19,8 +19,8 @@ function isValidEmail(email) {
 }
 
 function isValidPassword(password) {
-    if (password.length < 8) {
-        console.log('Password invalid, must contain at least 8 characters')
+    if (password.length < 4) {
+        console.log('Password invalid, must contain at least 4 characters')
         return false
     }
 
@@ -38,12 +38,6 @@ function isValidPassword(password) {
         console.log('Password invalid, must contain at least 1 characters 0-9')
         return false
     }
-
-    /*var spaicelChar = "!@#$%^&*()"
-    if (password.split('').filter((el) => spaicelChar.includes(el)).length == 0) {
-        console.log('Password invalid, must contain at least 1 characters !@#$%^&*()')
-        return false
-    }*/
 
     return true
 }
