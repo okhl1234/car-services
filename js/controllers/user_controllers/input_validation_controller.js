@@ -24,21 +24,6 @@ function isValidPassword(password) {
         return false
     }
 
-    if (password.split('').filter((el) => el >= 'a' && el <= 'z').length == 0){
-        console.log('Password invalid, must contain at least 1 characters a-z')
-        return false
-    }
-
-    if (password.split('').filter((el) => el >= 'A' && el <= 'Z').length == 0){
-        console.log('Password invalid, must contain at least 1 characters A-Z')
-        return false
-    }
-
-    if (password.split('').filter((el) => el >= '0' && el <= '9').length == 0){
-        console.log('Password invalid, must contain at least 1 characters 0-9')
-        return false
-    }
-
     return true
 }
 

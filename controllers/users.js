@@ -3,43 +3,21 @@ import { sendEmailAsync } from '../utils/mailer.js'
 import { encrypte, compare } from '../utils/encryption.js'
 import { stringify } from 'querystring'
 import fetch from 'node-fetch';
-// import { isValidPassword } from '../js/controllers/user_controllers/input_validation_controller.js';
+
 
 function isValidPassword(password) {
-    if (password.length < 8) {
-        console.log('Password invalid, must contain at least 8 characters')
-        return false
-    }
-
-    if (password.split('').filter((el) => el >= 'a' && el <= 'z').length == 0){
-        console.log('Password invalid, must contain at least 1 characters a-z')
-        return false
-    }
-
-    if (password.split('').filter((el) => el >= 'A' && el <= 'Z').length == 0){
-        console.log('Password invalid, must contain at least 1 characters A-Z')
-        return false
-    }
-
-    if (password.split('').filter((el) => el >= '0' && el <= '9').length == 0){
-        console.log('Password invalid, must contain at least 1 characters 0-9')
-        return false
-    }
-
-    var spaicelChar = "!@#$%^&*()"
-    if (password.split('').filter((el) => spaicelChar.includes(el)).length == 0) {
-        console.log('Password invalid, must contain at least 1 characters !@#$%^&*()')
+    if (password.length < 4) {
+        console.log('Password invalid, must contain at least 4 characters')
         return false
     }
 
     return true
 }
 
-// input : { email: 'kobi@gmail.com', password: '1234' }
+
 export const login = async (req, res) => {
     console.log(`Controllers: Users.login() - body = ${JSON.stringify(req.body)}`)
 
-   // sendEmailAsync(req.body.email, "Logged In", "Test Test")
     const invalidMessage = "User or password are invalid."
     const loginData = req.body
     try {
@@ -69,7 +47,6 @@ export const login = async (req, res) => {
     }
 }
 
-// input : { firstName : 'Kobi', lastName: 'Malka', email: 'kobi@gmail.com', password: '123456' }
 export const signup = async (req, res) => {
     console.log(`Controllers: Users.signup() - body = ${JSON.stringify(req.body)}`)
     const userData = req.body.user
@@ -100,7 +77,7 @@ export const signup = async (req, res) => {
         const newUser = new User(userData)
         await newUser.save()
 
-        sendEmailAsync(userData.email, "Welcome " + userData.firstName, "Test Test")
+        sendEmailAsync(userData.email, "Welcome " + userData.firstName, "to our service application")
 
         res.status(200).json({msg: "OK"})
     } catch (err) {
@@ -152,7 +129,7 @@ export const sendForgotPasswordEmail = async (req, res) => {
         await user.save()
 
         console.log('decryptedPassword = ' + newPassword)
-        await sendEmailAsync(email, "Forgot Password", "Your password is " + newPassword)
+        await sendEmailAsync(email, "Forgot Password", "Your new password is " + newPassword)
 
         res.status(200).send("Email with password sent...")
     } catch (err) {
